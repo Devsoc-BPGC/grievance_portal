@@ -7,7 +7,7 @@ function Dashboard() {
       <header className="text-8xl font-extrabold text-center ">Mirage</header>
       <div className="flex  flex-wrap w-full">
         {formFields.map((formField, index) => (
-          <Component heading={formField.heading} content={formField.content} />
+          <Component heading={formField.heading} content={formField.content} category={formField.category}/>
         ))}
       </div>
     </div>
