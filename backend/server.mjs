@@ -5,6 +5,7 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
           
+const app = express();
 
 app.use(express.json());
 app.use(cors());
