@@ -1,7 +1,7 @@
 const formFields = [
   {
     id: 1,
-    category: "",
+    category: "acads-research-placement",
     heading: "Academics, Research & Placements",
     content:
       "academics, registrations, research labs and competitions / conferences going on, programs happening, Placements, Practice School",

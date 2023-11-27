@@ -2,6 +2,9 @@ import Dashboard from "./pages/Dashboard";
 import Complain from "./pages/Complain";
 import {Routes, Route} from "react-router-dom"
 import formFields from "./formFields";
+import PresidentsHour from "./pages/PresidentsHour";
+import CampusHeroes from "./pages/CampusHeroes";
+import ComplaintDashboard from "./pages/ComplaintDashboard";
 
 function App() {
   const complainRoutes=formFields.map((item, i)=>
@@ -11,12 +14,9 @@ function App() {
     <>
     <Routes>
         <Route path="/" element={<Dashboard />} />
-        {/*<Route path="/complain/acads-research-placement" element={<Complain category="acads-research-placement"/>} />
-        <Route path="/complain/mess-hostel-amenities" element={<Complain category="mess-hostel-amenities"/>} />
-        <Route path="/complain/security-initiatives-infrastructure" element={<Complain category="security-initiatives-infrastructure"/>} />
-        <Route path="/fitness-health-sports" element={<Complain category="fitness-health-sports"/>} />
-        <Route path="/complain/clubs-societies-departments" element={<Complain category="clubs-societies-departments"/>} />
-  <Route path="/complain/administrative-general" element={<Complain category="administrative-general"/>} />*/}
+        <Route path="/presidents-hour" element={<PresidentsHour />} />
+        <Route path="/campus-heroes" element={<CampusHeroes />} />
+        <Route path="/complain" element={<ComplaintDashboard />} />
         {complainRoutes}
       </Routes>
     </>
