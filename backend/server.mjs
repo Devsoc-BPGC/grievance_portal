@@ -1,9 +1,27 @@
 import express from 'express';
 import cors from 'cors';
-import db from './db/conn.mjs';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
+import dotenv from "dotenv";
+dotenv.config();
+
+import { MongoClient } from "mongodb";
+
+const connectionString = process.env.ATLAS_URI;
+
+const client = new MongoClient(connectionString);
+
+let conn;
+try {
+  conn = await client.connect();
+  console.log("Connected to MongoDB Atlas");
+} catch(e) {
+  console.error("Error connecting to MongoDB Atlas:", e);
+}
+
+const db = conn.db("users");
           
 const app = express();
 
@@ -70,7 +88,7 @@ app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    res.redirect(`http://localhost:3000/dashboard/${req.user.googleId}`);
+    res.redirect(`/`);
   }
 );
 
