@@ -88,7 +88,7 @@ app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    res.redirect(`http://localhost:3000/${req.user.googleId}`);
+    res.redirect(`/`);
   }
 );
 
