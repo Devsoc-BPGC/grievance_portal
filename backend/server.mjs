@@ -41,6 +41,17 @@ app.use(
   app.use(passport.session());
   
   const database = db.collection('users');
+  const complaints = db.collection('complaints')
+
+  //example db
+  // complaints.insertOne({
+  //   type : 'mha'
+  //   user : 'ruxhik710@gmail.com',
+  //   name : 'Ruchik',
+  //   email : 'f2021122..',
+  //   phone: '9892887969',
+  //   desc : 'asdghajdgskh',
+  // });
   
   passport.use(
     new GoogleStrategy(
@@ -92,6 +103,35 @@ app.get(
   }
 );
 
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
+const middleware = (req,next,res)=>{
+  if(req.user){
+    next();
+  }else{
+    return res.redirect('/login')
+  }
+}
+
+app.post('/complaint',middleware,async (req,res)=>{
+  try {
+    await complaints.insertOne({...req.body,user:req.user.email});
+    return res.status(200).send('complaint regeistered')
+  }catch(err){
+    console.log(err)
+    return res.status(500).send('internal server error')
+  }
+})
+
+app.get('/complaints',middleware,(req,res)=>{
+  try {
+    const data = complaints.find({user:req.user.email})
+    return res.status(200).json(data)
+  } catch(err) {
+    return res.status(500).send("internal server error")
+  }
+})
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
