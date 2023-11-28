@@ -44,76 +44,62 @@ export default function Complain(props) {
 
   }
   return (
-    <div className="flex items-center justify-center h-screen mt-7">
+    <div className="bg-black flex flex-col items-center justify-center text-center h-screen">
       <Card color="transparent" shadow={false}>
-        <Typography variant="h3" color="blue-gray">
-          Complaint Form
+        <Typography variant="h3" className="text-white items-center justify-center text-center">
+          COMPLAINT FORM
         </Typography>
-        <Typography color="gray" className="mt-1 font-normal">
-          Enter the details to register your complaint
+        <Typography className="text-gray-500 mb-8 font-normal items-center justify-center text-center">
+          ENTER YOUR COMPLAINT
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 mx-auto">
+        <form className="w-full max-w-screen-lg sm:w-96 mx-auto">
           <div className="mb-1 flex flex-col gap-6">
-            <Typography
-              variant="h6"
-              color="blue-gray"
-              className="-mb-3 required"
-            >
-              Your Name
-            </Typography>
             <Input
               size="lg"
               placeholder=""
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              label="Your Name"
+              className=""
               labelProps={{
-                className: "before:content-none after:content-none",
+                className: "",
               }}
               required={true}
               name="name"
               value={formData.name}
               onChange={handleChange}
             />
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              BITS Email
-            </Typography>
             <Input
               size="lg"
               placeholder=""
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              label="BITS Email"
+              className=""
               labelProps={{
-                className: "before:content-none after:content-none",
+                className: "",
               }}
               required={true}
               name="email"
               value={formData.email}
               onChange={handleChange}
             />
-
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Phone Number
-            </Typography>
             <Input
               size="lg"
               placeholder=""
-              type="number"
+              label="Phone No."
               inputMode=""
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              className=""
               labelProps={{
                 className:
-                  "before:content-none after:content-none appearance-none",
+                  "",
               }}
               required={true}
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
             />
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Enter Description
-            </Typography>
             <Textarea
               variant="outlined"
-              className="focus:border-t-2 focus:border-gray-900"
+              className=""
               size="lg"
+              label="Description"
               required={true}
               name="desc"
               value={formData.desc}
@@ -128,7 +114,7 @@ export default function Complain(props) {
             Go to dashboard
           </Button>
           <Snackbar open={open} autoHideDuration={6000} onClose={()=>{toggleSnackbar(false)}}>
-            <Alert onClose={()=>{toggleSnackbar(false)}} severity="success" sx={{ width: '100%' }}>
+            <Alert className="bg-amber-500" onClose={()=>{toggleSnackbar(false)}} severity="success" sx={{ width: '100%' }}>
               Your complaint has been registered.
             </Alert>
           </Snackbar>
