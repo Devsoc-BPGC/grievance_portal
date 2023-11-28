@@ -9,40 +9,60 @@ import {
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
+
 export default function Complain(props) {
-  const [formData, updateFormData]=React.useState({
-    name:"",
-    email:"",
-    phoneNumber:"",
-    desc:"",
-    category:props.category,
-  })
-  const [open, toggleSnackbar]=React.useState(false)
+  const [formData, updateFormData] = React.useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    desc: "",
+    category: props.category,
+  });
+
+  const [open, toggleSnackbar] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const navigate = useNavigate();
-  function handleChange(event){
+
+  function handleChange(event) {
     updateFormData({
       ...formData,
-      [event.target.name]:event.target.value
-    })
-   // console.log(formData)
+      [event.target.name]: event.target.value
+    });
   }
-  React.useEffect(()=>{
-  //
-  }, [formData])
-  function handleSubmit(event){
-    event.preventDefault()
-    console.log(formData)
-    //make api request here
-    toggleSnackbar(true)
-    updateFormData({
-      name:"",
-    email:"",
-    phoneNumber:"",
-    desc:"",
-    category:formData.category,
-    })
 
+  React.useEffect(() => {
+    // Any side effects you want to handle after form data changes
+  }, [formData]);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    // Validation: Check if all fields are filled
+    if (!formData.name || !formData.email || !formData.phoneNumber || !formData.desc) {
+      setSnackbarMessage("Please fill all fields!");
+      toggleSnackbar(true);
+      return;
+    }
+
+    // Make API request here (simulated success)
+    // For a real scenario, you would make an API call using a library like axios or fetch
+    // If the request is successful, update the snackbar message accordingly
+    // For now, simulate success after a short delay
+    setTimeout(() => {
+      setSnackbarMessage("Your complaint has been registered");
+      toggleSnackbar(true);
+    }, 1000);
+
+    // Reset form data after successful submission
+    updateFormData({
+      name: "",
+      email: "",
+      phoneNumber: "",
+      desc: "",
+      category: formData.category,
+    });
   }
+
   return (
     <div className="bg-black flex flex-col items-center justify-center text-center h-screen">
       <Card color="transparent" shadow={false}>
@@ -87,8 +107,7 @@ export default function Complain(props) {
               inputMode=""
               className=""
               labelProps={{
-                className:
-                  "",
+                className: "",
               }}
               required={true}
               name="phoneNumber"
@@ -104,18 +123,17 @@ export default function Complain(props) {
               name="desc"
               value={formData.desc}
               onChange={handleChange}
-              
             />
           </div>
           <Button type="submit" className="mt-6" fullWidth onClick={handleSubmit}>
             Register Complaint
           </Button>
-           <Button className="mt-6" fullWidth onClick={()=>{navigate('/')}}>
+          <Button className="mt-6" fullWidth onClick={() => { navigate('/') }}>
             Go to dashboard
           </Button>
-          <Snackbar open={open} autoHideDuration={6000} onClose={()=>{toggleSnackbar(false)}}>
-            <Alert className="bg-amber-500" onClose={()=>{toggleSnackbar(false)}} severity="success" sx={{ width: '100%' }}>
-              Your complaint has been registered.
+          <Snackbar open={open} autoHideDuration={6000} onClose={() => { toggleSnackbar(false) }}>
+            <Alert className={snackbarMessage.includes("Please") ? "bg-red-500" : "bg-amber-500"} onClose={() => { toggleSnackbar(false) }} severity={snackbarMessage.includes("Please") ? "error" : "success"} sx={{ width: '100%' }}>
+              {snackbarMessage}
             </Alert>
           </Snackbar>
         </form>
