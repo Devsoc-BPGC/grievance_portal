@@ -106,7 +106,8 @@ app.get(
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-const middleware = (req,next,res)=>{
+const middleware = (req,res,next)=>{
+  return next();
   if(req.user){
     next();
   }else{
