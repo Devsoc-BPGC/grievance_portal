@@ -5,7 +5,6 @@ import {
     Typography,
     Button,
   } from "@material-tailwind/react";
-import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 function ComplaintDashboard() {
@@ -18,10 +17,10 @@ function ComplaintDashboard() {
       </Typography>
       <div className="flex flex-wrap w-full items-center justify-center">
         {formFields.map((formField, index) => (
-          <Component heading={formField.heading} content={""} category={formField.category} isFooter={true}/>
+          <Component key={index} heading={formField.heading} content={""} category={formField.category} isFooter={true}/>
         ))}
       </div>
-      <Button className="mt-6 w-fit ml-auto mr-auto" onClick={()=>{navigate('/')}}>
+      <Button className="mt-6 w-fit ml-auto mr-auto" onClick={()=>{navigate(`/`)}}>
             Go to dashboard
       </Button> 
     </Card>

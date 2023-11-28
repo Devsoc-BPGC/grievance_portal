@@ -26,6 +26,7 @@ const db = conn.db("users");
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({extended:true}))
 app.use(cors());
 
 
@@ -95,16 +96,29 @@ app.use(
   
   app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
   
+
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    res.redirect(`/`);
+    res.redirect(`http://localhost:3000/`);
   }
 );
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+app.get('/api/getUser',(req,res)=>{
+  console.log('get user')
+  try {
+    if(req.user){
+        res.send(req.user);
+    }
+    else{
+        res.status(403).send("Unauthorized User")
+    }
+  } catch (err) {
+    logger.error(err);
+    return res.status(401).send("User not found.");
+  }
+})
 
 const middleware = (req,res,next)=>{
   return next();
