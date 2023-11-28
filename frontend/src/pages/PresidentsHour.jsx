@@ -44,75 +44,61 @@ export default function PresidentsHour(){
         })
     }
     return(
-        <div className="flex items-center justify-center h-screen mt-7">
+        <div className="flex bg-black items-center justify-center text-center h-screen">
         <Card color="transparent" shadow={false}>
-        <Typography variant="h3" color="blue-gray">
-          President's Hour
+        <Typography className="items-center justify-center text-center text-white" variant="h3">
+          PRESIDENT'S HOUR
         </Typography>
-        <Typography color="gray" className="mt-1 font-normal">
-          Enter the details to send a message to the President
+        <Typography className="text-gray-500 items-center justify-center text-center mt-0 font-normal">
+          Enter your message to the President
         </Typography>
         <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 mx-auto">
           <div className="mb-1 flex flex-col gap-6">
-            <Typography
-              variant="h6"
-              color="blue-gray"
-              className="-mb-3 required"
-            >
-              Your Name
-            </Typography>
             <Input
               size="lg"
               placeholder=""
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              label="Your name"
+              className=""
               labelProps={{
-                className: "before:content-none after:content-none",
+                className: "",
               }}
               required={true}
               name="name"
               value={formData.name}
               onChange={handleChange}
             />
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              BITS Email
-            </Typography>
             <Input
               size="lg"
               placeholder=""
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              className=""
+              label="BITS Email"
               labelProps={{
-                className: "before:content-none after:content-none",
+                className: "",
               }}
               required={true}
               name="email"
               value={formData.email}
               onChange={handleChange}
             />
-
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Phone Number
-            </Typography>
             <Input
               size="lg"
               placeholder=""
-              type="number"
               inputMode=""
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              label="Phone No."
+              className=""
               labelProps={{
                 className:
-                  "before:content-none after:content-none appearance-none",
+                  "",
               }}
               required={true} 
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
             />
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Enter Message
-            </Typography>
             <Textarea
               variant="outlined"
-              className="focus:border-t-2 focus:border-gray-900"
+              label="Enter Message"
+              className=""
               size="lg"
               required={true}
               name="desc"
@@ -128,7 +114,7 @@ export default function PresidentsHour(){
             Go to dashboard
           </Button>
           <Snackbar open={open} autoHideDuration={6000} onClose={()=>{toggleSnackbar(false)}}>
-            <Alert onClose={()=>{toggleSnackbar(false)}} severity="success" sx={{ width: '100%' }}>
+            <Alert className="bg-amber-500" onClose={()=>{toggleSnackbar(false)}} severity="success" sx={{ width: '100%' }}>
               Your message has been registered.
             </Alert>
           </Snackbar>

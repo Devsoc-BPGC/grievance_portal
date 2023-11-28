@@ -33,18 +33,18 @@ export default function CampusHeroes(){
           },
     ]
     return(
-        <>
-        <Typography variant="h3" color="blue-gray" align="center">
-          Campus Heroes
+        <div className="h-screen flex flex-col items-center justify-center text-center bg-black">
+        <Typography className="items-center justify-center text-center text-white" variant="h3">
+          CAMPUS HEROES
         </Typography>
-        <div className="flex flex-wrap w-full justify-center">
+        <div className="flex flex-wrap w-full items-center justify-center text-center">
             {CampusHeroes.map((item) => (<Component heading={item.heading} content={item.content} category={item.category} isFooter={false}/>))}
         </div>
-        <Box className="flex justify-center">
+        <Box className="flex items-center justify-center text-center">
         <Button className="mt-10 mr-auto ml-auto w-fit align-center margin-auto"  onClick={()=>{navigate('/')}} margin="auto">
             Go to dashboard
         </Button>
         </Box>
-        </>
+        </div>
     )
 }

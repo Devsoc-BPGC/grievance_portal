@@ -5,16 +5,20 @@ import {
 } from "@material-tailwind/react";
 import {Link} from "react-router-dom";
 
+
 function Dashboard() {
+  
   return (
-    <div className="bg-gray-200 min-h-screen mr-auto ml-auto">
-      <header className="text-8xl font-extrabold text-center ">Mirage</header>
-      <div className="flex flex-col align-center w-fit justify-center mt-8 gap-5 mr-auto ml-auto ">
-        <Link to="presidents-hour"><Button fullWidth>President's Hour</Button></Link>
-        <Link to="campus-heroes" ><Button fullWidth>Campus Heroes</Button></Link>
-        <Link to="complain" ><Button fullWidth>Register Complaint</Button></Link>
-        <Link to="complaint-status" ><Button fullWidth>Complaint Status</Button></Link>
-        <Link to="message-status" ><Button fullWidth>Message Status</Button></Link>
+    <div className="flex flex-row items-center justify-center text-center bg-black min-h-screen mr-auto ml-auto">
+        <div className="w-1/3 h-full flex flex-col items-center justify-center text-center">
+          <header className="text-8xl font-extrabold items-center justify-center text-center p-9 text-white">Mirage</header>
+        </div>
+      <div className="w-2/3 flex flex-col items-center justify-center text-center mt-8 gap-5 mr-auto ml-auto">
+        <Link to="presidents-hour"  className="w-1/4"><Button className="w-full">President's Hour</Button></Link>
+        <Link to="campus-heroes"  className="w-1/4" ><Button className="w-full">Campus Heroes</Button></Link>
+        <Link to="complain"  className="w-1/4" ><Button className="w-full">Register Complaint</Button></Link>
+        <Link to="complaint-status"  className="w-1/4" ><Button className="w-full">Complaint Status</Button></Link>
+        <Link to="message-status"  className="w-1/4" ><Button className="w-full">Message Status</Button></Link>
       </div>
     </div>
   );

@@ -11,14 +11,14 @@ import { useNavigate } from 'react-router-dom';
 function ComplaintDashboard() {
   const navigate=useNavigate();
   return (
-    <div className="flex items-center justify-center h-screen mt-10">
+    <div className="flex flex-col items-center justify-center text-center bg-black h-screen">
     <Card color="transparent" shadow={false}>
-      <Typography variant="h3" color="blue-gray"  className="ml-auto mr-auto">
-        Choose Category of Complaint
+      <Typography variant="h3" className="text-white ml-auto mr-auto items-center justify-center text-center">
+        CHOOSE COMPLAINT CATEGORY
       </Typography>
       <div className="flex flex-wrap w-full items-center justify-center">
         {formFields.map((formField, index) => (
-          <Component heading={formField.heading} content={formField.content} category={formField.category} isFooter={true}/>
+          <Component heading={formField.heading} content={""} category={formField.category} isFooter={true}/>
         ))}
       </div>
       <Button className="mt-6 w-fit ml-auto mr-auto" onClick={()=>{navigate('/')}}>
