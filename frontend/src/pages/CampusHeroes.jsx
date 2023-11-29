@@ -38,7 +38,7 @@ export default function CampusHeroes(){
           CAMPUS HEROES
         </Typography>
         <div className="flex flex-wrap w-full items-center justify-center text-center">
-            {CampusHeroes.map((item) => (<Component heading={item.heading} content={item.content} category={item.category} isFooter={false}/>))}
+            {CampusHeroes.map((item, i) => (<Component key={i} heading={item.heading} content={item.content} category={item.category} isFooter={false}/>))}
         </div>
         <Box className="flex items-center justify-center text-center">
         <Button className="mt-10 mr-auto ml-auto w-fit align-center margin-auto"  onClick={()=>{navigate('/')}} margin="auto">

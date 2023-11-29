@@ -118,16 +118,16 @@ app.get('/api/getUser',(req,res)=>{
     logger.error(err);
     return res.status(401).send("User not found.");
   }
-})
+});
 
 const middleware = (req,res,next)=>{
   return next();
-  if(req.user){
-    next();
-  }else{
-    return res.redirect('/login')
-  }
-}
+  // if(req.user){
+  //   next();
+  // }else{
+  //   return res.redirect('/login')
+  // }
+};
 
 app.post('/complaint',middleware,async (req,res)=>{
   try {
@@ -137,7 +137,7 @@ app.post('/complaint',middleware,async (req,res)=>{
     console.log(err)
     return res.status(500).send('internal server error')
   }
-})
+});
 
 app.get('/complaints',middleware,(req,res)=>{
   try {
@@ -146,7 +146,7 @@ app.get('/complaints',middleware,(req,res)=>{
   } catch(err) {
     return res.status(500).send("internal server error")
   }
-})
+});
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

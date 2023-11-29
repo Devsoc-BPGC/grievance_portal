@@ -39,7 +39,7 @@ export default function Complain(props) {
 
     // Validation: Check if all fields are filled
     if (!formData.name || !formData.email || !formData.phoneNumber || !formData.desc) {
-      setSnackbarMessage("Please fill all fields!");
+      setSnackbarMessage("All fields are required!");
       toggleSnackbar(true);
       return;
     }
@@ -58,7 +58,7 @@ export default function Complain(props) {
     }).then(res=>{
       if(res.status===200){
         setTimeout(() => {
-          setSnackbarMessage("Your complaint has been registered");
+          setSnackbarMessage("Complaint registered successfully!");
           toggleSnackbar(true);
         }, 1000);
       } else {
@@ -78,6 +78,11 @@ export default function Complain(props) {
       category: formData.category,
     });
   }
+
+  React.useEffect(() => {
+    //
+  }, [formData])
+
 
   return (
     <div className="bg-black flex flex-col items-center justify-center text-center h-screen">
@@ -148,7 +153,7 @@ export default function Complain(props) {
             Go to dashboard
           </Button>
           <Snackbar open={open} autoHideDuration={6000} onClose={() => { toggleSnackbar(false) }}>
-            <Alert className={snackbarMessage.includes("Please") ? "bg-red-500" : "bg-amber-500"} onClose={() => { toggleSnackbar(false) }} severity={snackbarMessage.includes("Please") ? "error" : "success"} sx={{ width: '100%' }}>
+            <Alert className={snackbarMessage.includes("required") ? "bg-red-500" : "bg-amber-500"} onClose={() => { toggleSnackbar(false) }} severity={snackbarMessage.includes("Please") ? "error" : "success"} sx={{ width: '100%' }}>
               {snackbarMessage}
             </Alert>
           </Snackbar>

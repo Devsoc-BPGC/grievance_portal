@@ -20,7 +20,7 @@ export default function PresidentsHour() {
   })
   const [open, toggleSnackbar] = React.useState(false)
   const navigate = useNavigate();
-  const [error, setError] = React.useState("");
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
   
   function handleChange(event) {
     updateFormData({
@@ -29,44 +29,54 @@ export default function PresidentsHour() {
     })
   }
 
-  React.useEffect(() => {
-    //
-  }, [formData])
-
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (
-      formData.name === "" ||
-      formData.email === "" ||
-      formData.phoneNumber === "" ||
-      formData.desc === ""
-    ) {
-      setError("Please fill all fields!");
+    // Validation: Check if all fields are filled
+    if (!formData.name || !formData.email || !formData.phoneNumber || !formData.desc) {
+      setSnackbarMessage("All fields are required!");
       toggleSnackbar(true);
       return;
     }
 
-    console.log(formData);
-    // make api request here
+    // Make API request here (simulated success)
+    // For a real scenario, you would make an API call using a library like axios or fetch
+    // If the request is successful, update the snackbar message accordingly
+    // For now, simulate success after a short delay
+    fetch('/complaint',{
+      method:'POST',
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body:JSON.stringify(formData)
+    }).then(res=>{
+      if(res.status===200){
+        setTimeout(() => {
+          setSnackbarMessage("Complaint registered successfully!");
+          toggleSnackbar(true);
+        }, 1000);
+      } else {
+        alert('internal server error');
+      }
+    }).catch((err)=>{
+      console.log(err)
+      alert('cannot connect to server')
+    })
 
-    // Display success message
-    window.alert("Success!");
-
-    // Reset form data after submission
+    // Reset form data after successful submission
     updateFormData({
       name: "",
       email: "",
       phoneNumber: "",
       desc: "",
-      category: "message",
+      category: formData.category,
     });
   }
 
-
   React.useEffect(() => {
-    setError("");
-  }, [formData]);
+    //
+  }, [formData])
 
   return (
     <div className="flex bg-black items-center justify-center text-center h-screen">
@@ -136,13 +146,11 @@ export default function PresidentsHour() {
           <Button className="mt-6" fullWidth onClick={() => navigate('/')}>
             Go to dashboard
           </Button>
-          {error && (
-            <Snackbar open={open} autoHideDuration={6000} onClose={() => toggleSnackbar(false)}>
-              <Alert className="bg-red-500" onClose={() => toggleSnackbar(false)} severity="error" sx={{ width: '100%' }}>
-                {error}
-              </Alert>
-            </Snackbar>
-          )}
+          <Snackbar open={open} autoHideDuration={6000} onClose={() => { toggleSnackbar(false) }}>
+            <Alert className={snackbarMessage.includes("required") ? "bg-red-500" : "bg-amber-500"} onClose={() => { toggleSnackbar(false) }} severity={snackbarMessage.includes("Please") ? "error" : "success"} sx={{ width: '100%' }}>
+              {snackbarMessage}
+            </Alert>
+          </Snackbar>
         </form>
       </Card>
     </div>

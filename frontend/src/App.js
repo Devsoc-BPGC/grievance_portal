@@ -16,17 +16,17 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const complainRoutes = formFields.map((item, i) => (
     <Route
+      key={i}
       path={`/complain/${item.category}`}
       element={<Complain category={`${item.category}`} />}
     />
   ));
   const particlesInit = useCallback(async (engine) => {
-    console.log(engine);
     await loadSlim(engine);
   }, []);
 
   const particlesLoaded = useCallback(async (container) => {
-    await console.log(container);
+    return;
   }, []);
   return (
     <>
@@ -89,7 +89,7 @@ function App() {
                 enable: true,
                 area: 800,
               },
-              value: 80,
+              value: 100,
             },
             opacity: {
               value: 0.5,

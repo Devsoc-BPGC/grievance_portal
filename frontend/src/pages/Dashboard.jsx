@@ -2,22 +2,11 @@ import React, { useState, useEffect } from 'react';
 import {
   Button, Typography
 } from "@material-tailwind/react";
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 function Dashboard() {
-  // const navigate = useNavigate();
-  const { googleId } = useParams();
-  const [user, setUser] = useState({});
 
-  useEffect(() => {
-    fetch(`http://localhost:3001/user/${googleId}`)
-      .then(res => res.json())
-      .then(data => {
-        localStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
-      });
-  }, [googleId]);
   return (
     <div className="flex flex-row items-center justify-center text-center bg-black min-h-screen mr-auto ml-auto">
         <div className="w-1/3 h-full flex flex-col items-center justify-center text-center">
