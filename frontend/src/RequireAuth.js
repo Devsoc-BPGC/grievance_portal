@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useEffect,useState } from "react";
+import { Navigate, Outlet, useLocation,useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
+const axios = require('axios')
 function UnauthorisedUser(){
     const {setAuth} = useAuth();
     useEffect(() => {
@@ -12,13 +13,14 @@ function UnauthorisedUser(){
     },[])
     return <h1>Error 401: Unauthorised User. Please contact PS division in case you are not registered.</h1>
 }
+
 function RequireAuth() {
     const { auth } = useAuth();
     const location = useLocation();
-    console.log("AAAA", auth);
+    const navigate = useNavigate();
     return (
-        auth?.name
-                ? <UnauthorisedUser />
+            auth
+                ? <Outlet />
                 : <Navigate to="/login" state={{ from: location }} replace />
     )
 }

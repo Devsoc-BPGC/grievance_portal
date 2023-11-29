@@ -105,7 +105,7 @@ function App() {
         }}
       />
       <Routes>
-        <Route element={<RequireAuth userType="Mentor" />}>
+        <Route element={<RequireAuth />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/presidents-hour" element={<PresidentsHour />} />
           <Route path="/campus-heroes" element={<CampusHeroes />} />

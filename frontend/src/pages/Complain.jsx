@@ -48,10 +48,26 @@ export default function Complain(props) {
     // For a real scenario, you would make an API call using a library like axios or fetch
     // If the request is successful, update the snackbar message accordingly
     // For now, simulate success after a short delay
-    setTimeout(() => {
-      setSnackbarMessage("Your complaint has been registered");
-      toggleSnackbar(true);
-    }, 1000);
+    fetch('/complaint',{
+      method:'POST',
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body:JSON.stringify(formData)
+    }).then(res=>{
+      if(res.status===200){
+        setTimeout(() => {
+          setSnackbarMessage("Your complaint has been registered");
+          toggleSnackbar(true);
+        }, 1000);
+      } else {
+        alert('internal server error');
+      }
+    }).catch((err)=>{
+      console.log(err)
+      alert('cannot connect to server')
+    })
 
     // Reset form data after successful submission
     updateFormData({

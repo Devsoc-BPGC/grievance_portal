@@ -6,15 +6,19 @@ import axios from "axios";
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({});
+    const [auth, setAuth] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
     useEffect(() => {
         axios.get("/api/getUser").then(res => {
-            console.log("res",res)
-            setAuth(res?.data);
-            navigate("/", { replace: true });
+            if(res.status===200){
+                setAuth(true)
+                navigate("/", { replace: true });
+            }
+            else {
+                navigate("/login",{replace:true})
+            }
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
