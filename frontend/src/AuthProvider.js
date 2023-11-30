@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+    // const from = location.state?.from?.pathname || "/";
     useEffect(() => {
         axios.get("/api/getUser").then(res => {
             if(res.status===200){

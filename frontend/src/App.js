@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import Complain from "./pages/Complain";
 import { Routes, Route } from "react-router-dom";
@@ -13,7 +13,6 @@ import { loadSlim } from "tsparticles-slim";
 import RequireAuth from "./RequireAuth";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const complainRoutes = formFields.map((item, i) => (
     <Route
       key={i}
