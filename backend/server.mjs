@@ -1,8 +1,8 @@
-import express from 'express';
-import cors from 'cors';
-import session from 'express-session';
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import express from "express";
+import cors from "cors";
+import session from "express-session";
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -17,102 +17,103 @@ let conn;
 try {
   conn = await client.connect();
   console.log("Connected to MongoDB Atlas");
-} catch(e) {
+} catch (e) {
   console.error("Error connecting to MongoDB Atlas:", e);
 }
 
 const db = conn.db("users");
-          
+
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-
 app.use(
-    session({
-      secret: 'your-secret-key',
-      resave: false,
-      saveUninitialized: true,
-    })
-  );
-  
-  app.use(passport.initialize());
-  app.use(passport.session());
-  
-  const database = db.collection('users');
-  const complaints = db.collection('complaints')
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-  //example db
-  // complaints.insertOne({
-  //   type : 'mha'
-  //   user : 'ruxhik710@gmail.com',
-  //   name : 'Ruchik',
-  //   email : 'f2021122..',
-  //   phone: '9892887969',
-  //   desc : 'asdghajdgskh',
-  // });
-  
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: '210428474446-7sd68r5p5bnvcphf2bt38ai0v8ql1944.apps.googleusercontent.com',
-        clientSecret: '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',
-        callbackURL: 'http://localhost:3001/auth/google/callback',
-      },
-      async (accessToken, refreshToken, profile, done) => {
-        try {
-          let user = await database.findOne({ googleId: profile.id });
-          console.log(profile);
-          if (!user) {
-            const newUser = {
-              name: profile.displayName,
-              email: profile.emails[0].value,
-              googleId: profile.id,
-              profilePic: profile.photos[0].value,
-            };
-            const result = await database.insertOne(newUser);
-            if (result.acknowledged) {
-              user = newUser;
-            }
+app.use(passport.initialize());
+app.use(passport.session());
+
+const database = db.collection("users");
+const complaints = db.collection("complaints");
+
+//example db
+// complaints.insertOne({
+//   type : 'mha'
+//   user : 'ruxhik710@gmail.com',
+//   name : 'Ruchik',
+//   email : 'f2021122..',
+//   phone: '9892887969',
+//   desc : 'asdghajdgskh',
+// });
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID:
+        "210428474446-7sd68r5p5bnvcphf2bt38ai0v8ql1944.apps.googleusercontent.com",
+      clientSecret: "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",
+      callbackURL: "http://localhost:3001/auth/google/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await database.findOne({ googleId: profile.id });
+        console.log(profile);
+        if (!user) {
+          const newUser = {
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            googleId: profile.id,
+            profilePic: profile.photos[0].value,
+          };
+          const result = await database.insertOne(newUser);
+          if (result.acknowledged) {
+            user = newUser;
           }
-  
-          return done(null, user);
-        } catch (error) {
-          return done(error);
         }
+
+        return done(null, user);
+      } catch (error) {
+        return done(error);
       }
-    )
-  );
-  
-  passport.serializeUser((user, done) => {
-    done(null, user);
-  });
-  
-  passport.deserializeUser((user, done) => {
-    done(null, user);
-  });
-  
-  app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-  
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
 
 app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
     res.redirect(`http://localhost:3000/`);
   }
 );
 
-app.get('/api/getUser',(req,res)=>{
-  console.log('get user')
+app.get("/api/getUser", (req, res) => {
+  console.log("get user");
   try {
-    if(req.user){
-        res.send(req.user);
-    }
-    else{
-        res.status(403).send("Unauthorized User")
+    if (req.user) {
+      res.send(req.user);
+    } else {
+      res.status(403).send("Unauthorized User");
     }
   } catch (err) {
     logger.error(err);
@@ -120,7 +121,7 @@ app.get('/api/getUser',(req,res)=>{
   }
 });
 
-const middleware = (req,res,next)=>{
+const middleware = (req, res, next) => {
   return next();
   // if(req.user){
   //   next();
@@ -129,25 +130,27 @@ const middleware = (req,res,next)=>{
   // }
 };
 
-app.post('/complaint',middleware,async (req,res)=>{
+app.post("/complaint", middleware, async (req, res) => {
   try {
-    await complaints.insertOne({...req.body,user:req.user.email});
-    return res.status(200).send('complaint regeistered')
-  }catch(err){
-    console.log(err)
-    return res.status(500).send('internal server error')
+    await complaints.insertOne({ ...req.body, user: req.user.email });
+    return res.status(200).send("complaint regeistered");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("internal server error");
   }
 });
 
-app.get('/complaints',middleware,(req,res)=>{
+app.get("/complaints", middleware, (req, res) => {
   try {
-    const data = complaints.find({user:req.user.email})
-    return res.status(200).json(data)
-  } catch(err) {
-    return res.status(500).send("internal server error")
+    const data = complaints.find({ user: req.user.email });
+    return res.status(200).json(data);
+  } catch (err) {
+    return res.status(500).send("internal server error");
   }
 });
+
+app.use("/preshour", require("./routers/presHour"));
 
 app.listen(3001, () => {
-    console.log('Server is running on port 3001');
+  console.log("Server is running on port 3001");
 });
