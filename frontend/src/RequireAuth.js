@@ -14,10 +14,10 @@ import useAuth from "./useAuth";
 // }
 
 function RequireAuth() {
-    const { auth } = useAuth();
+    const { user } = useAuth();
     const location = useLocation();
     return (
-            auth
+            user
                 ? <Outlet />
                 : <Navigate to="/login" state={{ from: location }} replace />
     )

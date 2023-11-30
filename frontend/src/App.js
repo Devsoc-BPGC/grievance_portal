@@ -11,13 +11,15 @@ import { useCallback } from "react";
 import Particles from "react-particles";
 import { loadSlim } from "tsparticles-slim";
 import RequireAuth from "./RequireAuth";
+import useAuth from "./useAuth";
 
 function App() {
+  const { user } = useAuth();
   const complainRoutes = formFields.map((item, i) => (
     <Route
       key={i}
       path={`/complain/${item.category}`}
-      element={<Complain category={`${item.category}`} />}
+      element={<Complain category={`${item.category}`} user={user}/>}
     />
   ));
   const particlesInit = useCallback(async (engine) => {

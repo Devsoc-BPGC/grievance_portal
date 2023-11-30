@@ -48,13 +48,13 @@ export default function Complain(props) {
     // For a real scenario, you would make an API call using a library like axios or fetch
     // If the request is successful, update the snackbar message accordingly
     // For now, simulate success after a short delay
-    fetch('/complaint',{
+    fetch(`/complaint/${props.category}`,{
       method:'POST',
       headers: {
         "Content-Type": "application/json",
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body:JSON.stringify(formData)
+      body:JSON.stringify({...formData, user: props.user}),
     }).then(res=>{
       if(res.status===200){
         setTimeout(() => {

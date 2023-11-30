@@ -116,7 +116,7 @@ app.get("/api/getUser", (req, res) => {
       res.status(403).send("Unauthorized User");
     }
   } catch (err) {
-    logger.error(err);
+    console.log(err);
     return res.status(401).send("User not found.");
   }
 });
@@ -130,10 +130,11 @@ const middleware = (req, res, next) => {
   // }
 };
 
-app.post("/complaint", middleware, async (req, res) => {
+app.post("/complaint/:type", middleware, async (req, res) => {
   try {
-    await complaints.insertOne({ ...req.body, user: req.user.email });
-    return res.status(200).send("complaint regeistered");
+    const { type } = req.params;
+    await complaints.insertOne({ type: type, ...req.body});
+    return res.status(200).send("complaint registered");
   } catch (err) {
     console.log(err);
     return res.status(500).send("internal server error");
@@ -142,14 +143,15 @@ app.post("/complaint", middleware, async (req, res) => {
 
 app.get("/complaints", middleware, (req, res) => {
   try {
-    const data = complaints.find({ user: req.user.email });
+    const data = complaints.find({ user: req.user });
     return res.status(200).json(data);
   } catch (err) {
     return res.status(500).send("internal server error");
   }
 });
 
-app.use("/preshour", require("./routers/presHour"));
+import presHourRouter from "./routers/presHour.js";
+app.use("/preshour", presHourRouter);
 
 app.listen(3001, () => {
   console.log("Server is running on port 3001");
