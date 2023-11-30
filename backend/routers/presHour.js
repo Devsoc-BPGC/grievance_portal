@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// const prezHour = require('./models/prezHour');//update path if using models to call mongoDB from here only
+// const prezHour = require('./models/prezHour');//update path
 // const messages ="update route to api here"
 //const authorizePrez = require("update path")
 
@@ -65,4 +65,4 @@ router.put("/", authorizePrez, async (req, res) => {
 //   }
 // });
 
-// module.exports = router;
+module.exports = router;
