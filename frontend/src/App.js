@@ -12,6 +12,8 @@ import Particles from "react-particles";
 import { loadSlim } from "tsparticles-slim";
 import RequireAuth from "./RequireAuth";
 import useAuth from "./useAuth";
+import ComplaintStatus from "./pages/ComplaintStatus";
+import MessageStatus from "./pages/MessageStatus";
 
 function App() {
   const { user } = useAuth();
@@ -111,6 +113,8 @@ function App() {
           <Route path="/presidents-hour" element={<PresidentsHour />} />
           <Route path="/campus-heroes" element={<CampusHeroes />} />
           <Route path="/complain" element={<ComplaintDashboard />} />
+          <Route path="/complaint-status" element={<ComplaintStatus />} />
+          <Route path="/message-status" element={<MessageStatus />} />
           {complainRoutes}
         </Route>
         <Route path="/login" element={<Signin />} />
