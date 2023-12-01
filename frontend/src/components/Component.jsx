@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 export default function Component(props) {
   const complaintLink=`${props.category}`
   return (
-    <Card className="mt-[5vh] sm:w-full md:w-[28vw] md:mx-[1.66vw] flex flex-col">
+    <Card className="mt-5 m-5 flex flex-col">
       <CardBody className="flex-1">
         <Typography variant="h5" color="blue-gray" className="mb-2">
           {props.heading}

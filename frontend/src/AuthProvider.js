@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
       })
       .catch(error => {
         console.error("Error fetching user data:", error);
-        navigate("/login", { replace: true });
+        // navigate("/login", { replace: true });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
