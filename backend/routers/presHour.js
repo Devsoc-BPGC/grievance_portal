@@ -83,11 +83,11 @@ router.get("/:id", authorizePrez, async (req, res) => {
 
 router.put("/:id/:_id", authorizePrez, async (req, res) => {
   const newReply = {
-    reply: req.body.reply,
+    response: req.body.response,
     replyTime: new Date(),
   };
 
-  if (!newReply.reply) {
+  if (!newReply.response) {
     return res.status(400).json({ msg: `Please send proper reply` });
   } else {
     try {
@@ -98,7 +98,7 @@ router.put("/:id/:_id", authorizePrez, async (req, res) => {
       const filter = { _id: new ObjectId(req.params._id) }; // Convert string to ObjectId
       const update = {
         $set: {
-          reply: newReply.reply,
+          response: newReply.response,
           replyTime: newReply.replyTime,
         },
       };

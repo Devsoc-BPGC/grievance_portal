@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Typography, Textarea, Button } from "@material-tailwind/react";
 
 function createData(id, date, complaint) {
-  return { id, date, complaint, reply: "", isReplySent: false };
+  return { id, date, complaint, response: "", isReplySent: false };
 }
 
 const initialRows = [
@@ -46,7 +46,7 @@ export default function PrezHourMessages(props) {
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    console.log(props.user.googleId);
+    // console.log(props.user.googleId);
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -57,7 +57,7 @@ export default function PrezHourMessages(props) {
           const documents = response.data;
           const updatedRows = documents.map((row) => ({
             ...row,
-            isReplySent: row.reply !== "", // Set isReplySent to true if reply is not an empty string
+            isReplySent: row.response !== "",
           }));
           setRows(updatedRows);
         } else {
@@ -74,7 +74,7 @@ export default function PrezHourMessages(props) {
 
   const handleReplyChange = (id, event) => {
     const updatedRows = rows.map((row) =>
-      row._id === id ? { ...row, reply: event.target.value } : row
+      row._id === id ? { ...row, response: event.target.value } : row
     );
     setRows(updatedRows);
   };
@@ -85,7 +85,7 @@ export default function PrezHourMessages(props) {
     // Assuming you have an API endpoint for updating replies
     axios
       .put(`http://localhost:3001/preshour/${props.user.googleId}/${id}`, {
-        reply: rowToUpdate.reply,
+        response: rowToUpdate.response,
       })
       .then((response) => {
         if (response.status === 200) {
@@ -133,6 +133,9 @@ export default function PrezHourMessages(props) {
           <TableHead>
             <TableRow>
               <TableCell align="left" sx={{ color: "white" }}>
+                Email
+              </TableCell>
+              <TableCell align="left" sx={{ color: "white" }}>
                 Date
               </TableCell>
               <TableCell align="left" sx={{ color: "white" }}>
@@ -151,13 +154,16 @@ export default function PrezHourMessages(props) {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="left" sx={{ color: "white" }}>
+                  {row.email}
+                </TableCell>
+                <TableCell align="left" sx={{ color: "white" }}>
                   {row.date}
                 </TableCell>
                 <TableCell align="left" sx={{ color: "white" }}>
-                  {row.complaint}
+                  {row.desc}
                 </TableCell>
                 <TableCell align="left" sx={{ color: "white" }}>
-                  {row.isReplySent || row.reply !== "" ? (
+                  {row.isReplySent ? (
                     editingId === row._id ? (
                       <Textarea
                         variant="outlined"
@@ -166,12 +172,12 @@ export default function PrezHourMessages(props) {
                         label="Reply"
                         required={true}
                         name="desc"
-                        value={row.reply}
+                        value={row.response}
                         onChange={(event) => handleReplyChange(row._id, event)}
                         style={{ color: "white" }}
                       />
                     ) : (
-                      row.reply
+                      row.response
                     )
                   ) : (
                     <Textarea
@@ -181,7 +187,7 @@ export default function PrezHourMessages(props) {
                       label="Reply"
                       required={true}
                       name="desc"
-                      value={row.reply}
+                      value={row.response}
                       onChange={(event) => handleReplyChange(row._id, event)}
                       style={{ color: "white" }}
                     />
