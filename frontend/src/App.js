@@ -110,11 +110,11 @@ function App() {
       <Routes>
       <Route element={<RequireAuth />}>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/presidents-hour" element={<PresidentsHour />} />
+          <Route path="/presidents-hour" element={<PresidentsHour user={user} />} />
           <Route path="/campus-heroes" element={<CampusHeroes />} />
           <Route path="/complain" element={<ComplaintDashboard />} />
-          <Route path="/complaint-status" element={<ComplaintStatus />} />
-          <Route path="/message-status" element={<MessageStatus />} />
+          <Route path="/complaint-status" element={<ComplaintStatus user={user} />} />
+          <Route path="/message-status" element={<MessageStatus user={user} />} />
           {complainRoutes}
         </Route>
         <Route path="/login" element={<Signin />} />

@@ -9,20 +9,23 @@ import Paper from '@mui/material/Paper';
 import {
     Typography,
 } from "@material-tailwind/react";
+import axios from 'axios';
 
-function createData(id, category, date, complaint, status) {
-  return {id, category, date, complaint, status };
-}
 
-const rows = [
-  createData('134', 'Mess', '27/10/2023', 'I saw a rat in D mess. Please send help.', 'Solved'),
-  createData('144', 'Hostel', '30/10/2023', 'There are lizards in my room. Please save me.', 'Solved'),
-  createData('157', 'Academics', '3/11/2023', 'How to get 10 sg if i start preparing one night before compre?', 'Pending'),
-  createData('160', 'Academics', '14/11/2023', 'Will I get SIP if I grind DSA from first year? PPO mil jayega na? Will the recession impact my placement? I am unable to sleep at night in this worry but I am just in 1st year??', 'Pending'),
-  createData('932', 'General', '29/11/2023', 'My friends are coming to goa can I book VGH for them? My parents want to come for waves, how to convince them not to?', 'Pending'),
-];
+export default function ComplaintStatus(props) {
+  const [rows, setRows] = React.useState([]);
 
-export default function ComplaintStatus() {
+  React.useEffect(() => {
+    axios.get(`/complaints/${props.user.googleId}`, {
+    })
+      .then(response => {
+        setRows(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching complaint data:', error);
+      });
+  }, [props.user]);
+
   return (
     <div className="bg-black flex flex-col items-center justify-center text-center h-screen">
     <TableContainer sx={{ minWidth: 650, maxWidth: 900, marginLeft: 'auto',  marginRight: 'auto', backgroundColor: 'black'}} component={Paper}>
@@ -46,12 +49,13 @@ export default function ComplaintStatus() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" sx={{color:'white'}}>
-                {row.id}
+                {row.complaintid}
               </TableCell>
               <TableCell align="left" sx={{color:'white'}}>{row.category}</TableCell>
               <TableCell align="left" sx={{color:'white'}}>{row.date}</TableCell>
-              <TableCell align="left" sx={{color:'white'}}>{row.complaint}</TableCell>
+              <TableCell align="left" sx={{color:'white'}}>{row.desc}</TableCell>
               <TableCell align="left" sx={{color:'white'}}>{row.status}</TableCell>
+              <TableCell align="left" sx={{color:'white'}}>{row.response}</TableCell>
             </TableRow>
           ))}
         </TableBody>

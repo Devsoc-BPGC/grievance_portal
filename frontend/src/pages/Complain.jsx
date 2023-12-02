@@ -11,17 +11,25 @@ import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 
 export default function Complain(props) {
+  const [idCounter, setIdCounter] = React.useState(1);
   const [formData, updateFormData] = React.useState({
+    complaintid: idCounter,
     name: "",
     email: "",
     phoneNumber: "",
     desc: "",
     category: props.category,
+    status: "Pending",
+    response: ""
   });
 
   const [open, toggleSnackbar] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    // Any side effects you want to handle after form data changes
+  }, [formData]);
 
   function handleChange(event) {
     updateFormData({
@@ -30,45 +38,43 @@ export default function Complain(props) {
     });
   }
 
-  React.useEffect(() => {
-    // Any side effects you want to handle after form data changes
-  }, [formData]);
 
   function handleSubmit(event) {
     event.preventDefault();
-
+  
     // Validation: Check if all fields are filled
     if (!formData.name || !formData.email || !formData.phoneNumber || !formData.desc) {
       setSnackbarMessage("All fields are required!");
       toggleSnackbar(true);
       return;
     }
-
-    // Make API request here (simulated success)
-    // For a real scenario, you would make an API call using a library like axios or fetch
-    // If the request is successful, update the snackbar message accordingly
-    // For now, simulate success after a short delay
-    fetch(`/complaint/${props.category}`,{
-      method:'POST',
+  
+  
+    setIdCounter(idCounter + 1);
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+  
+    // Make API request here
+    fetch(`/complaint/${props.category}`, {
+      method: 'POST',
       headers: {
         "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body:JSON.stringify({...formData, user: props.user}),
-    }).then(res=>{
-      if(res.status===200){
+      body: JSON.stringify({ ...formData, user: props.user, id: props.user.googleId, date: formattedDate }),
+    }).then(res => {
+      if (res.status === 200) {
         setTimeout(() => {
           setSnackbarMessage("Complaint registered successfully!");
           toggleSnackbar(true);
         }, 1000);
       } else {
-        alert('internal server error');
+        alert('Internal server error');
       }
-    }).catch((err)=>{
-      console.log(err)
-      alert('cannot connect to server')
-    })
-
+    }).catch((err) => {
+      console.log(err);
+      alert('Cannot connect to server');
+    });
+  
     // Reset form data after successful submission
     updateFormData({
       name: "",
@@ -76,8 +82,10 @@ export default function Complain(props) {
       phoneNumber: "",
       desc: "",
       category: formData.category,
+      date: "",
     });
   }
+  
 
   React.useEffect(() => {
     //

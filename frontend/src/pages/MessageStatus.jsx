@@ -9,18 +9,28 @@ import Paper from '@mui/material/Paper';
 import {
     Typography,
 } from "@material-tailwind/react";
+import axios from 'axios';
 
-function createData(id, date, message, status, response) {
-  return {id, date, message, status, response };
-}
 
-const rows = [
-  createData('134', '27/10/2023', 'the prez is so cool', 'Responded', 'thanks, i know.'),
-  createData('144', '30/10/2023', 'thanks for the vending machines bro really helping a lazy bitsian out', 'Responded', 'Glad you found it helpful, always ready to help the bitsian community!'),
-  createData('157', '3/11/2023', 'what about embezzling waves funds?????', 'Not responded', ''),
-];
 
-export default function MessageStatus() {
+export default function MessageStatus(props) {
+
+  const [rows, setRows] = React.useState([]);
+
+  React.useEffect(() => {
+    axios.get(`/pressmessage/${props.user.googleId}`, {
+      params: {
+        id: props.user.googleId,
+      },
+    })
+      .then(response => {
+        setRows(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching complaint data:', error);
+      });
+  }, [props.user]);
+
   return (
     <div className="bg-black flex flex-col items-center justify-center text-center h-screen">
     <TableContainer sx={{ minWidth: 650, maxWidth: 900, marginLeft: 'auto',  marginRight: 'auto', backgroundColor: 'black'}} component={Paper}>
@@ -44,7 +54,7 @@ export default function MessageStatus() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" sx={{color:'white'}}>
-                {row.id}
+                {row.complaintid}
               </TableCell>
               <TableCell align="left" sx={{color:'white'}}>{row.date}</TableCell>
               <TableCell align="left" sx={{color:'white'}}>{row.message}</TableCell>

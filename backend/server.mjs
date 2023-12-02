@@ -42,6 +42,7 @@ app.use(passport.session());
 
 const database = db.collection("users");
 const complaints = db.collection("complaints");
+const prezHour = db.collection("prezHour");
 
 //example db
 // complaints.insertOne({
@@ -141,17 +142,44 @@ app.post("/complaint/:type", middleware, async (req, res) => {
   }
 });
 
-app.get("/complaints", middleware, (req, res) => {
+app.post("/presmessage/", middleware, async (req, res) => {
   try {
-    const data = complaints.find({ user: req.user });
-    return res.status(200).json(data);
+    await prezHour.insertOne({ ...req.body});
+    return res.status(200).send("complaint registered");
   } catch (err) {
+    console.log(err);
     return res.status(500).send("internal server error");
   }
 });
 
+
+app.get("/complaints/:id", middleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await complaints.find({ id: { $in: [id] } }).toArray();
+    console.log(data);
+    return res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Internal server error");
+  }
+});
+
+app.get("/pressmessage/:id", middleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await prezHour.find({ id: { $in: [id] } }).toArray();
+    return res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Internal server error");
+  }
+});
+
+
+
 import presHourRouter from "./routers/presHour.js";
-import CSARouter from "./routers/CSA";
+import CSARouter from "./routers/CSA.js";
 
 app.use("/preshour", presHourRouter);
 

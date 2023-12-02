@@ -10,13 +10,17 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 
-export default function PresidentsHour() {
+export default function PresidentsHour(props) {
+  const [idCounter, setIdCounter] = React.useState(1);
   const [formData, updateFormData] = React.useState({
+    complaintid: idCounter,
     name: "",
     email: "",
     phoneNumber: "",
     desc: "",
-    category: "message"
+    category: "message",
+    status: "Not Responded",
+    response: ""
   })
   const [open, toggleSnackbar] = React.useState(false)
   const navigate = useNavigate();
@@ -39,17 +43,22 @@ export default function PresidentsHour() {
       return;
     }
 
+    setIdCounter(idCounter + 1);
+
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+
     // Make API request here (simulated success)
     // For a real scenario, you would make an API call using a library like axios or fetch
     // If the request is successful, update the snackbar message accordingly
     // For now, simulate success after a short delay
-    fetch('/complaint',{
+    fetch('/pressmessage',{
       method:'POST',
       headers: {
         "Content-Type": "application/json",
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body:JSON.stringify(formData)
+      body:JSON.stringify({...formData, user: props.user, id: props.user.googleId, date: formattedDate}),
     }).then(res=>{
       if(res.status===200){
         setTimeout(() => {
