@@ -108,7 +108,7 @@ function App() {
         }}
       />
       <Routes>
-        <Route >
+      <Route element={<RequireAuth />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/presidents-hour" element={<PresidentsHour />} />
           <Route path="/campus-heroes" element={<CampusHeroes />} />
