@@ -11,9 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 
 export default function Complain(props) {
-  const [idCounter, setIdCounter] = React.useState(1);
   const [formData, updateFormData] = React.useState({
-    complaintid: idCounter,
     name: "",
     email: "",
     phoneNumber: "",
@@ -50,7 +48,6 @@ export default function Complain(props) {
     }
   
   
-    setIdCounter(idCounter + 1);
     const currentDate = new Date();
     const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
   

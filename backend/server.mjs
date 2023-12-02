@@ -134,7 +134,10 @@ const middleware = (req, res, next) => {
 app.post("/complaint/:type", middleware, async (req, res) => {
   try {
     const { type } = req.params;
-    await complaints.insertOne({ type: type, ...req.body});
+    const data = await complaints.find({ id: { $in: [req.body.id] } }).toArray();
+    const complaintid = data.length + 1;
+    console.log(complaintid)
+    await complaints.insertOne({ type: type, ...req.body, complaintid: complaintid});
     return res.status(200).send("complaint registered");
   } catch (err) {
     console.log(err);
@@ -144,7 +147,9 @@ app.post("/complaint/:type", middleware, async (req, res) => {
 
 app.post("/presmessage/", middleware, async (req, res) => {
   try {
-    await prezHour.insertOne({ ...req.body});
+    const data = await prezHour.find({ id: { $in: [req.body.id] } }).toArray();
+    const complaintid = data.length + 1;
+    await prezHour.insertOne({ ...req.body, complaintid: complaintid});
     return res.status(200).send("complaint registered");
   } catch (err) {
     console.log(err);
