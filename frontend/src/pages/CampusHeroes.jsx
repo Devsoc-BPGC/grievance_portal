@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from "react-responsive";
 export default function CampusHeroes(){
     const isDesktopOrLaptop = useMediaQuery({
-    query: '(min-width: 500px)'
+    query: '(min-width: 900px)'
     })
     const className_Div_1 = isDesktopOrLaptop ? "h-screen" : "h-100"
     const navigate=useNavigate()
