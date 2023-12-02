@@ -13,10 +13,7 @@ const authorizePrez = (req, res, next) => {
   }
 };
 
-router.get("/", authorizePrez, async (req, res) => {
-  const allComplaints = await messages.displayPrezHours(); //make a displayPrezHour.find({}) function with auth in the api
-  res.json(allComplaints);
-});
+ 
 
 // router.get("/", authorizePrez, async (req, res) => {
 //   try {
