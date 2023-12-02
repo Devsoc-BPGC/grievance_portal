@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Typography, Textarea, Button } from "@material-tailwind/react";
 
@@ -40,46 +40,57 @@ const initialRows = [
 ];
 
 export default function PrezHourMessages(props) {
-  // useEffect(() => {
-  //   // Axios GET request to fetch documents
-  //   Axios.get(`http://localhost:3001/preshour/${props.user.googleId}`)
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         const documents = response.data;
-
-  //         // setRows(documents);
-  //       } else {
-  //         console.error("Failed to fetch documents.");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching documents:", error);
-  //     });
-  // }, []);
-
   const navigate = useNavigate();
   const [rows, setRows] = useState(initialRows);
 
   const [editingId, setEditingId] = useState(null);
 
+  useEffect(() => {
+    console.log(props.user.googleId);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/preshour/${props.user.googleId}`
+        );
+
+        if (response.status === 200) {
+          const documents = response.data;
+          const updatedRows = documents.map((row) => ({
+            ...row,
+            isReplySent: row.reply !== "", // Set isReplySent to true if reply is not an empty string
+          }));
+          setRows(updatedRows);
+        } else {
+          console.error("Failed to fetch documents.");
+        }
+      } catch (error) {
+        console.error("Error fetching documents:", error);
+      }
+    };
+
+    fetchData(); // Call the async function
+  }, []); // Empty dependency array to ensure it runs only once on mount
+  // Empty dependency array to ensure it runs only once on mount
+
   const handleReplyChange = (id, event) => {
     const updatedRows = rows.map((row) =>
-      row.id === id ? { ...row, reply: event.target.value } : row
+      row._id === id ? { ...row, reply: event.target.value } : row
     );
     setRows(updatedRows);
   };
 
   const handleSendReply = (id) => {
-    const rowToUpdate = rows.find((row) => row.id === id);
+    const rowToUpdate = rows.find((row) => row._id === id);
 
     // Assuming you have an API endpoint for updating replies
-    Axios.put(`http://localhost:3001/preshour/${props.user.googleId}`, {
-      reply: rowToUpdate.reply,
-    })
+    axios
+      .put(`http://localhost:3001/preshour/${props.user.googleId}/${id}`, {
+        reply: rowToUpdate.reply,
+      })
       .then((response) => {
         if (response.status === 200) {
           const updatedRows = rows.map((row) =>
-            row.id === id ? { ...row, isReplySent: true } : row
+            row._id === id ? { ...row, isReplySent: true } : row
           );
           setRows(updatedRows);
           setEditingId(null);
@@ -94,7 +105,7 @@ export default function PrezHourMessages(props) {
 
   const handleEdit = (id) => {
     const updatedRows = rows.map((row) =>
-      row.id === id ? { ...row, isReplySent: false } : row
+      row._id === id ? { ...row, isReplySent: false } : row
     );
     setRows(updatedRows);
     setEditingId(id);
@@ -136,7 +147,7 @@ export default function PrezHourMessages(props) {
           <TableBody>
             {rows.map((row) => (
               <TableRow
-                key={row.id}
+                key={row._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="left" sx={{ color: "white" }}>
@@ -146,8 +157,8 @@ export default function PrezHourMessages(props) {
                   {row.complaint}
                 </TableCell>
                 <TableCell align="left" sx={{ color: "white" }}>
-                  {row.isReplySent ? (
-                    editingId === row.id ? (
+                  {row.isReplySent || row.reply !== "" ? (
+                    editingId === row._id ? (
                       <Textarea
                         variant="outlined"
                         className=""
@@ -156,7 +167,7 @@ export default function PrezHourMessages(props) {
                         required={true}
                         name="desc"
                         value={row.reply}
-                        onChange={(event) => handleReplyChange(row.id, event)}
+                        onChange={(event) => handleReplyChange(row._id, event)}
                         style={{ color: "white" }}
                       />
                     ) : (
@@ -171,7 +182,7 @@ export default function PrezHourMessages(props) {
                       required={true}
                       name="desc"
                       value={row.reply}
-                      onChange={(event) => handleReplyChange(row.id, event)}
+                      onChange={(event) => handleReplyChange(row._id, event)}
                       style={{ color: "white" }}
                     />
                   )}
@@ -182,7 +193,7 @@ export default function PrezHourMessages(props) {
                       type="submit"
                       className="mt-6"
                       fullWidth
-                      onClick={() => handleEdit(row.id)}
+                      onClick={() => handleEdit(row._id)}
                     >
                       Edit
                     </Button>
@@ -191,7 +202,7 @@ export default function PrezHourMessages(props) {
                       type="submit"
                       className="mt-6"
                       fullWidth
-                      onClick={() => handleSendReply(row.id)}
+                      onClick={() => handleSendReply(row._id)}
                     >
                       Send
                     </Button>

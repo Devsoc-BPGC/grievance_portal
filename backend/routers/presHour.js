@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { ObjectId } = require("mongodb");
 
 const { MongoClient } = require("mongodb");
 const dotenv = require("dotenv");
@@ -42,8 +43,19 @@ const authorizePrez = async (req, res, next) => {
 };
 
 router.get("/:id", authorizePrez, async (req, res) => {
-  // api function to get all the documents
-  res.status(200).send("Authorized Access");
+  try {
+    await connect();
+    const db = conn.db("users");
+    const presHourCollection = db.collection("prezHour"); // Use the correct collection name
+    const allMessages = await presHourCollection.find({}).toArray();
+    res.status(200).json(allMessages);
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // finally {
+  //   await closeConnection();
+  // }
 });
 
 // router.get("/", authorizePrez, async (req, res) => {
@@ -69,11 +81,9 @@ router.get("/:id", authorizePrez, async (req, res) => {
 //   }
 // });
 
-router.put("/:id", authorizePrez, async (req, res) => {
-  //assuming in the db every message very have reply field
-
+router.put("/:id/:_id", authorizePrez, async (req, res) => {
   const newReply = {
-    reply: req.body.reply, //update, add the needed fields
+    reply: req.body.reply,
     replyTime: new Date(),
   };
 
@@ -81,12 +91,31 @@ router.put("/:id", authorizePrez, async (req, res) => {
     return res.status(400).json({ msg: `Please send proper reply` });
   } else {
     try {
-      const addedReply = await prezHour.addPrezHourReply(
-        newReply,
-        req.body._id
-      ); //update fields as per api
-      res.json(addedReply);
+      await connect();
+      const db = conn.db("users");
+      const preshourCollection = db.collection("prezHour"); // Use the correct collection name
+
+      const filter = { _id: new ObjectId(req.params._id) }; // Convert string to ObjectId
+      const update = {
+        $set: {
+          reply: newReply.reply,
+          replyTime: newReply.replyTime,
+        },
+      };
+
+      // Set upsert to true to create a new document if it doesn't exist
+      const options = { upsert: true, returnDocument: "after" };
+
+      // Use findOneAndUpdate to update the document or create a new one
+      const updatedDocument = await preshourCollection.findOneAndUpdate(
+        filter,
+        update,
+        options
+      );
+
+      res.json(updatedDocument.value);
     } catch (error) {
+      console.error("Error updating or creating reply:", error);
       res.status(500).json({ msg: "Internal Server Error" });
     }
   }
