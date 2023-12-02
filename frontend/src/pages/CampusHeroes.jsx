@@ -6,7 +6,12 @@ import {
 } from "@material-tailwind/react";
 import Box from '@mui/system/Box';
 import { useNavigate } from 'react-router-dom';
+import { useMediaQuery } from "react-responsive";
 export default function CampusHeroes(){
+    const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-width: 900px)'
+    })
+    const className_Div_1 = isDesktopOrLaptop ? "h-screen" : "h-100"
     const navigate=useNavigate()
     const CampusHeroes=[
         {
@@ -33,7 +38,7 @@ export default function CampusHeroes(){
           },
     ]
     return(
-        <div className="h-screen flex flex-col items-center justify-center text-center bg-black">
+        <div className={`${className_Div_1} flex flex-col items-center justify-center text-center bg-black`}>
         <Typography className="items-center justify-center text-center text-white" variant="h3">
           CAMPUS HEROES
         </Typography>
