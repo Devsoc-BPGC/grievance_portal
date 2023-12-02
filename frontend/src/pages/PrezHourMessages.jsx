@@ -40,22 +40,22 @@ const initialRows = [
 ];
 
 export default function PrezHourMessages(props) {
-  useEffect(() => {
-    // Axios GET request to fetch documents
-    Axios.get(`http://localhost:3001/preshour/${props.user.googleId}`)
-      .then((response) => {
-        if (response.status === 200) {
-          const documents = response.data;
+  // useEffect(() => {
+  //   // Axios GET request to fetch documents
+  //   Axios.get(`http://localhost:3001/preshour/${props.user.googleId}`)
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         const documents = response.data;
 
-          // setRows(documents);
-        } else {
-          console.error("Failed to fetch documents.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching documents:", error);
-      });
-  }, []);
+  //         // setRows(documents);
+  //       } else {
+  //         console.error("Failed to fetch documents.");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching documents:", error);
+  //     });
+  // }, []);
 
   const navigate = useNavigate();
   const [rows, setRows] = useState(initialRows);
