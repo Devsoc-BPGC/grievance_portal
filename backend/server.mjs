@@ -151,8 +151,16 @@ app.get("/complaints", middleware, (req, res) => {
 });
 
 import presHourRouter from "./routers/presHour.js";
+import CSARouter from "./routers/CSA";
+
 app.use("/preshour", presHourRouter);
 
-app.listen(3001, () => {
-  console.log("Server is running on port 3001");
+const PORT=3001;
+
+app.use("/csa", CSARouter);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
+
+
