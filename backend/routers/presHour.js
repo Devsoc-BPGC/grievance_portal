@@ -1,19 +1,50 @@
 const express = require("express");
 const router = express.Router();
+
+const { MongoClient } = require("mongodb");
+const dotenv = require("dotenv");
+dotenv.config();
 // const prezHour = require('./models/prezHour');//update path
 // const messages ="update route to api here"
 //const authorizePrez = require("update path")
 
-const authorizePrez = (req, res, next) => {
-  if (req.user && req.user.type === "prez") {
-    //assuming example give in server.mjs files for db
-    next();
-  } else {
-    res.status(403).send("Unauthorized Access");
+const connectionString = process.env.ATLAS_URI;
+
+const client = new MongoClient(connectionString);
+
+let conn;
+async function connect() {
+  try {
+    conn = await client.connect();
+    console.log("Connected to MongoDB Atlas");
+  } catch (e) {
+    console.error("Error connecting to MongoDB Atlas:", e);
+  }
+}
+
+const authorizePrez = async (req, res, next) => {
+  try {
+    await connect();
+    const db = conn.db("users");
+
+    const database = db.collection("users");
+    let user = await database.findOne({ googleId: req.params.id });
+    if (user && user.type === "prez") {
+      // res.status(200).send("prez");
+      next();
+    } else {
+      res.status(403).send("Unauthorized Access");
+    }
+  } catch (error) {
+    console.error("Error checking authorization:", error);
+    res.status(500).send("Internal Server Error");
   }
 };
 
- 
+router.get("/:id", authorizePrez, async (req, res) => {
+  // api function to get all the documents
+  res.status(200).send("Authorized Access");
+});
 
 // router.get("/", authorizePrez, async (req, res) => {
 //   try {
@@ -25,18 +56,35 @@ const authorizePrez = (req, res, next) => {
 //   }
 // });
 
-router.put("/", authorizePrez, async (req, res) => {
+// router.get("/:id", async (req, res) => {
+//   let user = await database.findOne({ googleId: req.params.id });
+//   if (user && user.type == "prez") {
+//     //assuming example give in server.mjs files for db
+
+//     res(200).send("prez");
+//     next();
+//   } else {
+//     // console.log(req);
+//     res.status(403).send("Unauthorized Access");
+//   }
+// });
+
+router.put("/:id", authorizePrez, async (req, res) => {
   //assuming in the db every message very have reply field
+
   const newReply = {
-    replyContent: req.body.content, //update, add the needed fields
+    reply: req.body.reply, //update, add the needed fields
     replyTime: new Date(),
   };
 
-  if (!newReply.replyContent) {
+  if (!newReply.reply) {
     return res.status(400).json({ msg: `Please send proper reply` });
   } else {
     try {
-      const addedReply = await movies.addPrezHourReply(newReply, req.body._id);
+      const addedReply = await prezHour.addPrezHourReply(
+        newReply,
+        req.body._id
+      ); //update fields as per api
       res.json(addedReply);
     } catch (error) {
       res.status(500).json({ msg: "Internal Server Error" });

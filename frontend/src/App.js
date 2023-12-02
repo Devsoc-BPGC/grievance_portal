@@ -14,6 +14,7 @@ import RequireAuth from "./RequireAuth";
 import useAuth from "./useAuth";
 import ComplaintStatus from "./pages/ComplaintStatus";
 import MessageStatus from "./pages/MessageStatus";
+import PrezHourMessages from "./pages/PrezHourMessages";
 
 function App() {
   const { user } = useAuth();
@@ -21,7 +22,7 @@ function App() {
     <Route
       key={i}
       path={`/complain/${item.category}`}
-      element={<Complain category={`${item.category}`} user={user}/>}
+      element={<Complain category={`${item.category}`} user={user} />}
     />
   ));
   const particlesInit = useCallback(async (engine) => {
@@ -108,15 +109,28 @@ function App() {
         }}
       />
       <Routes>
-      <Route element={<RequireAuth />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/presidents-hour" element={<PresidentsHour user={user} />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/" element={<Dashboard user={user} />} />
+          <Route
+            path="/presidents-hour"
+            element={<PresidentsHour user={user} />}
+          />
           <Route path="/campus-heroes" element={<CampusHeroes />} />
           <Route path="/complain" element={<ComplaintDashboard />} />
-          <Route path="/complaint-status" element={<ComplaintStatus user={user} />} />
-          <Route path="/message-status" element={<MessageStatus user={user} />} />
+          <Route
+            path="/complaint-status"
+            element={<ComplaintStatus user={user} />}
+          />
+          <Route
+            path="/message-status"
+            element={<MessageStatus user={user} />}
+          />
           {complainRoutes}
         </Route>
+        <Route
+          path="/prezhour-prez"
+          element={<PrezHourMessages user={user} />}
+        />
         <Route path="/login" element={<Signin />} />
       </Routes>
     </>
