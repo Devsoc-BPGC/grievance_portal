@@ -143,6 +143,9 @@ export default function PrezHourMessages(props) {
                 Complaint
               </TableCell>
               <TableCell align="left" sx={{ color: "white" }}>
+                Category
+              </TableCell>
+              <TableCell align="left" sx={{ color: "white" }}>
                 Reply
               </TableCell>
               <TableCell align="left" sx={{ color: "white" }}></TableCell>
@@ -159,6 +162,9 @@ export default function PrezHourMessages(props) {
                 </TableCell>
                 <TableCell align="left" sx={{ color: "white" }}>
                   {row.date}
+                </TableCell>
+                <TableCell align="left" sx={{ color: "white" }}>
+                  {row.category}
                 </TableCell>
                 <TableCell align="left" sx={{ color: "white" }}>
                   {row.desc}
