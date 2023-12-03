@@ -58,6 +58,24 @@ router.get("/:id", authorizePrez, async (req, res) => {
   // }
 });
 
+router.get("/:id/:email", async (req, res) => {
+  try {
+    await connect();
+    const db = conn.db("users");
+    const presHourCollection = db.collection("prezHour"); // Use the correct collection name
+    const allMessages = await presHourCollection
+      .find({ email: req.params.email })
+      .toArray();
+    res.status(200).json(allMessages);
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // finally {
+  //   await closeConnection();
+  // }
+});
+
 // router.get("/", authorizePrez, async (req, res) => {
 //   try {
 //     const allComplaints = await prezHour.find({}); //sending get request form here only.
