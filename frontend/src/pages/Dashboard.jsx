@@ -91,9 +91,9 @@ function Dashboard(props) {
         <Link to="presidents-hour" className={`${className_bt}`}>
           <Button className="w-full">President's Hour</Button>
         </Link>
-        <Link to="campus-heroes" className={`${className_bt}`}>
+        {/* <Link to="campus-heroes" className={`${className_bt}`}>
           <Button className="w-full">Campus Heroes</Button>
-        </Link>
+        </Link> */}
         <Link to="complain" className={`${className_bt}`}>
           <Button className="w-full">Register Complaint</Button>
         </Link>

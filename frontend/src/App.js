@@ -63,14 +63,14 @@ function App() {
                 quantity: 4,
               },
               repulse: {
-                distance: 200,
+                distance: 100,
                 duration: 0.4,
               },
             },
           },
           particles: {
             color: {
-              value: "#FFFF00",
+              value: "#ffffff",
             },
             links: {
               color: "#ffffff",
@@ -86,7 +86,7 @@ function App() {
                 default: "bounce",
               },
               random: false,
-              speed: 6,
+              speed: 3,
               straight: false,
             },
             number: {
@@ -97,10 +97,10 @@ function App() {
               value: 100,
             },
             opacity: {
-              value: 0.5,
+              value: 0.4,
             },
             shape: {
-              type: "triangle",
+              type: "circle",
             },
             size: {
               value: { min: 1, max: 3 },
