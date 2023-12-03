@@ -27,7 +27,7 @@ const authorizeCSA = async (req, res, next) => {
 
     const database = db.collection("users");
     let user = await database.findOne({ googleId: req.params.id });
-    if (user && user.type === "CSA") {
+    if (user && (user.type == "CSA" || user.type =="prez")) {
       // res.status(200).send("prez");
       next();
     } else {

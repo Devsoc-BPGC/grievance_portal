@@ -103,7 +103,7 @@ function Dashboard(props) {
         <Link to="message-status" className={`${className_bt}`}>
           <Button className="w-full">Message Status</Button>
         </Link>
-        {isAuthorizedCSA &&(
+        {(isAuthorizedCSA || isAuthorized) &&(
           <Link to="selective-csa" className={`${className_bt}`}>
           <Button className="w-full">For CSA</Button>
         </Link>)
