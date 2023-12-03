@@ -43,6 +43,7 @@ app.use(passport.session());
 const database = db.collection("users");
 const complaints = db.collection("complaints");
 const prezHour = db.collection("prezHour");
+const CSARepo = db.collection("CSARepo");
 
 //example db
 // complaints.insertOne({

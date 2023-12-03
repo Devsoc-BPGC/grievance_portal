@@ -15,6 +15,7 @@ import useAuth from "./useAuth";
 import ComplaintStatus from "./pages/ComplaintStatus";
 import MessageStatus from "./pages/MessageStatus";
 import PrezHourMessages from "./pages/PrezHourMessages";
+import SelectiveCSA from "./pages/SelectiveCSA";
 
 function App() {
   const { user } = useAuth();
@@ -131,6 +132,7 @@ function App() {
           path="/prezhour-prez"
           element={<PrezHourMessages user={user} />}
         />
+        <Route path="/selective-csa" element={<SelectiveCSA user={user} />} />
         <Route path="/login" element={<Signin />} />
       </Routes>
     </>

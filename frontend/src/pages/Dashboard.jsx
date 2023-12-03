@@ -8,6 +8,30 @@ import { useState, useEffect } from "react";
 
 function Dashboard(props) {
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isAuthorizedCSA, setIsAuthorizedCSA] = useState(false);
+
+  useEffect(() => {
+    // console.log(props.user);
+    const checkAuthorizationCSA = async () => {
+      try {
+        // Replace 'userId' with the actual user ID
+        const userId = props.user.googleId;
+        // console.log(userId);
+
+        const response = await axios.get(
+          `http://localhost:3001/csa/${userId}`
+        );
+
+        if (response.status === 200) {
+          setIsAuthorizedCSA(true);
+        }
+      } catch (error) {
+        console.error("unauthorized :", error);
+      }
+    };
+
+    checkAuthorizationCSA();
+  }, []);
 
   useEffect(() => {
     // console.log(props.user);
@@ -79,6 +103,12 @@ function Dashboard(props) {
         <Link to="message-status" className={`${className_bt}`}>
           <Button className="w-full">Message Status</Button>
         </Link>
+        {isAuthorizedCSA &&(
+          <Link to="selective-csa" className={`${className_bt}`}>
+          <Button className="w-full">For CSA</Button>
+        </Link>)
+        }
+        
       </div>
     </div>
   );
