@@ -42,7 +42,6 @@ const initialRows = [
 export default function PrezHourMessages(props) {
   const navigate = useNavigate();
   const [rows, setRows] = useState(initialRows);
- 
 
   const [editingId, setEditingId] = useState(null);
 
@@ -51,7 +50,7 @@ export default function PrezHourMessages(props) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-            console.log(props.user.googleId)
+          // console.log(props.user.googleId)
           `http://localhost:3001/csa/${props.user.googleId}`
         );
 
