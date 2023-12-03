@@ -3,6 +3,9 @@ import cors from "cors";
 import session from "express-session";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -25,9 +28,16 @@ const db = conn.db("users");
 
 const app = express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.static(__dirname+'/public'))
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+})
 
 app.use(
   session({
@@ -61,7 +71,7 @@ passport.use(
       clientID:
         "210428474446-7sd68r5p5bnvcphf2bt38ai0v8ql1944.apps.googleusercontent.com",
       clientSecret: "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",
-      callbackURL: "http://localhost:3001/auth/google/callback",
+      callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -105,7 +115,7 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    res.redirect(`http://localhost:3000/`);
+    res.redirect(`/`);
   }
 );
 

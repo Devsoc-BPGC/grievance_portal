@@ -50,7 +50,7 @@ export default function PrezHourMessages(props) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/preshour/${props.user.googleId}`
+          `/preshour/${props.user.googleId}`
         );
 
         if (response.status === 200) {
@@ -84,7 +84,7 @@ export default function PrezHourMessages(props) {
 
     // Assuming you have an API endpoint for updating replies
     axios
-      .put(`http://localhost:3001/preshour/${props.user.googleId}/${id}`, {
+      .put(`/preshour/${props.user.googleId}/${id}`, {
         response: rowToUpdate.response,
       })
       .then((response) => {

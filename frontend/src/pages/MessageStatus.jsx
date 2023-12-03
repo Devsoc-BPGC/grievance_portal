@@ -16,7 +16,7 @@ export default function MessageStatus(props) {
     const fetchData = async () => {
       try {
         const presHourResponse = await axios.get(
-          `http://localhost:3001/preshour/${props.user.googleId}/${props.user.email}`
+          `/preshour/${props.user.googleId}/${props.user.email}`
         );
 
         if (presHourResponse.status === 200) {

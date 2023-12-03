@@ -19,7 +19,7 @@ function Dashboard(props) {
         // console.log(userId);
 
         const response = await axios.get(
-          `http://localhost:3001/csa/${userId}`
+          `/csa/${userId}`
         );
 
         if (response.status === 200) {
@@ -42,7 +42,7 @@ function Dashboard(props) {
         // console.log(userId);
 
         const response = await axios.get(
-          `http://localhost:3001/preshour/${userId}`
+          `/preshour/${userId}`
         );
 
         if (response.status === 200) {

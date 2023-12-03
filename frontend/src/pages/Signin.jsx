@@ -34,7 +34,7 @@ class Signin extends Component {
     return (
         <div className = "bg-black flex h-screen items-center justify-center">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm justify-center items-center">
-          <form className="space-y-6" action="http://localhost:3001/auth/google" method="get">
+          <form className="space-y-6" action="/auth/google" method="get">
             <button
               type="submit"
               className="flex items-center justify-center px-4 py-2 w-full text-white bg-blue-500 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-md"

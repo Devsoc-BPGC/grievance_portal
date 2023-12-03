@@ -52,7 +52,7 @@ export default function PresidentsHour(props) {
     // For a real scenario, you would make an API call using a library like axios or fetch
     // If the request is successful, update the snackbar message accordingly
     // For now, simulate success after a short delay
-    fetch("http://localhost:3001/presmessage/", {
+    fetch("/presmessage/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
