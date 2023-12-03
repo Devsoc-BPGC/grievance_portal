@@ -117,7 +117,7 @@ export default function PrezHourMessages(props) {
       <TableContainer
         sx={{
           minWidth: 650,
-          maxWidth: 900,
+          maxWidth: "85vw",
           marginLeft: "auto",
           marginRight: "auto",
           backgroundColor: "black",
