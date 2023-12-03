@@ -92,7 +92,7 @@ export default function PrezHourMessages(props) {
           const updatedRows = rows.map((row) =>
             row._id === id ? { ...row, isReplySent: true } : row
           );
-          setRows(updatedRows);
+          setRows(updatedRows.reverse());
           setEditingId(null);
         } else {
           console.error("Failed to update reply.");
@@ -148,7 +148,7 @@ export default function PrezHourMessages(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.toReversed().map((row) => (
               <TableRow
                 key={row._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
