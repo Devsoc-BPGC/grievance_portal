@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const { ObjectId } = require("mongodb");
+import { ObjectId } from "mongodb";
 
-const { MongoClient } = require("mongodb");
-const dotenv = require("dotenv");
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
 dotenv.config();
 const connectionString = process.env.ATLAS_URI;
 
@@ -94,4 +94,4 @@ router.put("/:id/:_id", authorizeCSA, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

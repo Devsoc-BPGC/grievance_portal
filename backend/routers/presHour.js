@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express"
 const router = express.Router();
-const { ObjectId } = require("mongodb");
+import { ObjectId } from "mongodb";
 
-const { MongoClient } = require("mongodb");
-const dotenv = require("dotenv");
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
 dotenv.config();
 // const prezHour = require('./models/prezHour');//update path
 // const messages ="update route to api here"
@@ -157,4 +157,4 @@ router.put("/:id/:_id", authorizePrez, async (req, res) => {
 //   }
 // });
 
-module.exports = router;
+export default router;
