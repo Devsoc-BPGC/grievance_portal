@@ -71,7 +71,7 @@ passport.use(
       clientID:
         "796324132621-egvs82jqfcajmsonrl8b28dl0g3a7ssn.apps.googleusercontent.com",
       clientSecret: "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",
-      callbackURL: "/auth/google/callback",
+      callbackURL: "https://grievances.bp-gc.in/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
