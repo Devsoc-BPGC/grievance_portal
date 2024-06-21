@@ -1,10 +1,11 @@
 import {
   Card,
-  Input,
   Button,
   Typography,
   Textarea,
   Alert,
+  Select,
+  Option
 } from "@material-tailwind/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,8 +24,8 @@ export default function Complain(props) {
   const [open, toggleSnackbar] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const navigate = useNavigate();
+  const [events, setEvent] = React.useState('0');
 
-  React.useEffect(() => {}, [formData]);
 
   function handleChange(event) {
     updateFormData({
@@ -37,7 +38,7 @@ export default function Complain(props) {
     event.preventDefault();
 
     // Validation: Check if all fields are filled
-    if (!formData.name || !formData.email || !formData.desc) {
+    if (!formData.name || !formData.email || !formData.desc || (props.category === 'events' && events === '0')) {
       setSnackbarMessage("All fields are required!");
       toggleSnackbar(true);
       return;
@@ -56,6 +57,7 @@ export default function Complain(props) {
       },
       body: JSON.stringify({
         ...formData,
+        desc: (props.category === 'events' ? events + " - " : "") + formData.desc,
         user: props.user,
         id: props.user.googleId,
         date: formattedDate,
@@ -83,11 +85,8 @@ export default function Complain(props) {
       desc: "",
       category: formData.category,
     });
+    setEvent('0');
   }
-
-  React.useEffect(() => {
-    //
-  }, [formData]);
 
   return (
     <div className="bg-black flex flex-col items-center justify-center text-center h-screen">
@@ -102,6 +101,12 @@ export default function Complain(props) {
           ENTER YOUR COMPLAINT
         </Typography>
         <form className="w-full max-w-screen-lg sm:w-96 mx-auto">
+        {props.category === 'events' ? (<div className="w-72 mb-5">
+          <Select label="Select Event" className='text-white' onChange={(event) => setEvent(event)} value={events}>
+            <Option value="0">-- Select an Event --</Option>
+            <Option value="convocation">Convocation</Option>
+          </Select>
+        </div>) : <></>}
           <div className="mb-1 flex flex-col gap-6">
             <Textarea
               variant="outlined"

@@ -36,5 +36,10 @@ const formFields = [
     category: "administrative-general",
     heading: "Administrative Machinery and General College Life",
   },
+  {
+    id: 7,
+    category: "events",
+    heading: "Events",
+  },
 ];
 export default formFields;
