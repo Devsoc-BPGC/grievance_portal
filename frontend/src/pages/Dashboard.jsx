@@ -88,15 +88,15 @@ function Dashboard(props) {
             <Button className="w-full">President's Hour Messages</Button>
           </Link>
         )}
-        <Link to="presidents-hour" className={`${className_bt}`}>
+        {!(isAuthorized || isAuthorizedCSA) && (<Link to="presidents-hour" className={`${className_bt}`}>
           <Button className="w-full">President's Hour</Button>
-        </Link>
+        </Link>)}
         {/* <Link to="campus-heroes" className={`${className_bt}`}>
           <Button className="w-full">Campus Heroes</Button>
         </Link> */}
-        <Link to="complain" className={`${className_bt}`}>
+        {!(isAuthorized || isAuthorizedCSA) && (<Link to="complain" className={`${className_bt}`}>
           <Button className="w-full">Register Complaint</Button>
-        </Link>
+        </Link>)}
         <Link to="complaint-status" className={`${className_bt}`}>
           <Button className="w-full">Complaint Status</Button>
         </Link>
