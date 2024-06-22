@@ -105,6 +105,8 @@ export default function Complain(props) {
           <Select label="Select Event" className='text-white' onChange={(event) => setEvent(event)} value={events}>
             <Option value="0">-- Select an Event --</Option>
             <Option value="convocation">Convocation</Option>
+            <Option value="ps2">PS2</Option>
+            <Option value="registration">Registration '24 - '25</Option>
           </Select>
         </div>) : <></>}
           <div className="mb-1 flex flex-col gap-6">
