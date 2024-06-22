@@ -8,7 +8,7 @@ import cors from "cors";
 const app = express();
 const port = 5002;
 
-const mongoURI = "mongodb+srv://arjit:arjit1206@cluster0.iret1e1.mongodb.net/";
+const mongoURI = process.env.ATLAS_URI;
 const dbName = "users"; // db
 app.use(express.json());
 app.use(cors());

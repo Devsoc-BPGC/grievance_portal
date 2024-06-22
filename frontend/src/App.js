@@ -35,14 +35,15 @@ function App() {
   }, []);
   return (
     <>
-    <header className="justify-center text-center align-center pt-6"
-      style={{ color: 'white', fontSize: '1rem', backgroundColor: 'black' }}
-    >
-      Made with ❤️ by{' '}
-      <a href='https://devsoc.club' style={{ color: '#ADD8E6' }}>
-        DevSoc
-      </a>
-    </header>
+      <header
+        className="justify-center text-center align-center pt-6"
+        style={{ color: "white", fontSize: "1rem", backgroundColor: "black" }}
+      >
+        Made with ❤️ by{" "}
+        <a href="https://devsoc.club" style={{ color: "#ADD8E6" }}>
+          DevSoc
+        </a>
+      </header>
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -135,12 +136,12 @@ function App() {
             element={<MessageStatus user={user} />}
           />
           {complainRoutes}
+          <Route
+            path="/prezhour-prez"
+            element={<PrezHourMessages user={user} />}
+          />
+          <Route path="/selective-csa" element={<SelectiveCSA user={user} />} />
         </Route>
-        <Route
-          path="/prezhour-prez"
-          element={<PrezHourMessages user={user} />}
-        />
-        <Route path="/selective-csa" element={<SelectiveCSA user={user} />} />
         <Route path="/login" element={<Signin />} />
       </Routes>
     </>
