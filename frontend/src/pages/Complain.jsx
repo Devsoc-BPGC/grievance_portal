@@ -5,7 +5,8 @@ import {
   Textarea,
   Alert,
   Select,
-  Option
+  Option,
+  Input
 } from "@material-tailwind/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +17,7 @@ export default function Complain(props) {
     name: props.user.name,
     email: props.user.email,
     desc: "",
+    link: "",
     category: props.category,
     status: "Pending",
     response: "",
@@ -83,6 +85,7 @@ export default function Complain(props) {
       name: props.user.name,
       email: props.user.email,
       desc: "",
+      link: "",
       category: formData.category,
     });
     setEvent('0');
@@ -109,6 +112,9 @@ export default function Complain(props) {
             <Option value="registration">Registration '24 - '25</Option>
           </Select>
         </div>) : <></>}
+          <div className="w-72 mb-5">
+            <Input label="Drive link" name="link" value={formData.link} onChange={handleChange} className="text-white"/>
+          </div>
           <div className="mb-1 flex flex-col gap-6">
             <Textarea
               variant="outlined"
